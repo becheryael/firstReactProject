@@ -8,8 +8,8 @@ import Input from "./InputControl";
 
 const AddRecipe = (props) => {
   const [enteredRecipeName, setEnteredRecipeName] = useState("");
-  const [ingredientsList, setIngredientsList] = useState(['']);
-  const [instructionsList, setInstructionsList] = useState(['']);
+  const [ingredientsList, setIngredientsList] = useState([""]);
+  const [instructionsList, setInstructionsList] = useState([""]);
   const [image, setImage] = useState(null);
   const [error, setError] = useState();
 
@@ -19,13 +19,14 @@ const AddRecipe = (props) => {
     if (enteredRecipeName.trim().length === 0) {
       setError({
         title: "Invalid input",
-        message: "Please enter a name for your recipe"
+        message: "Please enter a name for your recipe",
       });
       return;
     } else if (ingredientsList[0] === "" || instructionsList[0] === "") {
       setError({
         title: "Invalid input",
-        message: "A recipe must have at least one ingredient and instruction. Otherwise, what will you cook with!!!!! AAHHHAHAHAHHAH"
+        message:
+          "A recipe must have at least one ingredient and instruction. Otherwise, what will you cook with!!!!! AAHHHAHAHAHHAH",
       });
       return;
     }
@@ -33,7 +34,12 @@ const AddRecipe = (props) => {
     ingredientsList.pop();
     instructionsList.pop();
 
-    props.onAddRecipe(enteredRecipeName, ingredientsList, instructionsList, image);
+    props.onAddRecipe(
+      enteredRecipeName,
+      ingredientsList,
+      instructionsList,
+      image
+    );
     setEnteredRecipeName("");
     setIngredientsList([""]);
     setInstructionsList([""]);

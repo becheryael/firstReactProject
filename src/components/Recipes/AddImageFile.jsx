@@ -5,8 +5,8 @@ import styles from "../Recipes/AddImageFile.module.css";
 const fileTypes = ["JPG", "PNG", "GIF"];
 
 const AddImageFile = (props) => {
-  const { image, setImage } = props
-  
+  const { image, setImage } = props;
+
   const handleFileChange = (file) => {
     setImage(file);
   };
@@ -24,10 +24,7 @@ const AddImageFile = (props) => {
         />
       )}
       {image && (
-        <img
-          src={URL.createObjectURL(image)}
-          className={styles.image}
-        ></img>
+        <img src={URL.createObjectURL(image)} className={styles.image}></img>
       )}
       {image && (
         <button onClick={() => setImage(null)} className={styles.button}>
