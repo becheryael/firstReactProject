@@ -1,0 +1,13 @@
+.recipes {
+  flex-direction: column;
+  max-width: 85%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  margin-bottom: 5%;
+}
+
+.recipes h3 {
+  text-align: center;
+}
