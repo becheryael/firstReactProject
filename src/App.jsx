@@ -5,7 +5,12 @@ import RecipesList from "./components/Recipes/RecipesList";
 const App = () => {
   const [recipesList, setRecipesList] = useState([]);
 
-  const addRecipeHandler = (recipeName, ingredientsList, instructionsList, image) => {
+  const addRecipeHandler = (
+    recipeName,
+    ingredientsList,
+    instructionsList,
+    image
+  ) => {
     setRecipesList((prevRecipeList) => {
       return [
         ...prevRecipeList,

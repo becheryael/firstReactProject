@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 
 const Input = (props) => {
   const { title, list, setList } = props;
+  const inputRefs = useRef([]);
 
   const handleChange = (event, index) => {
     const { value } = event.target;
     const updatedList = [...list];
     updatedList[index] = value;
-    if (list.length - 1 === index && value.length > 0) {
+    if (list.length - 1 === index && value.trim().length > 0) {
       return setList([...updatedList, ""]);
     }
     setList(updatedList);
@@ -23,6 +24,29 @@ const Input = (props) => {
     }
   };
 
+  const setInputRef = (ref, index) => {
+    if (ref) {
+      inputRefs.current[index] = ref;
+    }
+  };
+
+  const handleKeyDown = (event, index) => {
+    if (event.key === "Enter" || event.key === "ArrowDown") {
+      event.preventDefault();
+      const nextIndex = index + 1;
+
+      if (inputRefs.current[nextIndex]) {
+        inputRefs.current[nextIndex].focus();
+      }
+    } else if (event.key === "ArrowUp") {
+      const nextIndex = index - 1;
+
+      if (inputRefs.current[nextIndex]) {
+        inputRefs.current[nextIndex].focus();
+      }
+    }
+  };
+
   return (
     <>
       <label htmlFor={title}>{title}</label>
@@ -34,11 +58,8 @@ const Input = (props) => {
           value={singleListItem}
           onChange={(event) => handleChange(event, index)}
           onBlur={(event) => handleRemove(event, index)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-            }
-          }}
+          onKeyDown={(event) => handleKeyDown(event, index)}
+          ref={(ref) => setInputRef(ref, index)}
         />
       ))}
     </>
