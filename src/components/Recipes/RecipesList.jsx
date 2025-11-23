@@ -20,7 +20,12 @@ const RecipesList = (props) => {
               <li key={index}>{instruction}</li>
             ))}
           </ol>
-          {recipe.image && <img src={URL.createObjectURL(recipe.image)} />}
+          {recipe.image && (
+            <img
+              src={URL.createObjectURL(recipe.image)}
+              alt="image not found"
+            />
+          )}
         </Card>
       ))}
     </div>
