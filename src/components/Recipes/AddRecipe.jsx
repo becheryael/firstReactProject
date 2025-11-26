@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Card from "../UI/Card";
 import ErrorModal from "../UI/ErrorModal";
 import Button from "../UI/Button";
 import styles from "../Recipes/AddRecipes.module.css";
 import AddImageFile from "./AddImageFile";
-import Input from "./InputControl";
+import Inputs from "./Inputs";
+import RecipeContext from "../../store/recipe-context";
 
-const AddRecipe = (props) => {
+const AddRecipe = () => {
+  const recipeCtx = useContext(RecipeContext);
+
   const [enteredRecipeName, setEnteredRecipeName] = useState("");
   const [ingredientsList, setIngredientsList] = useState([""]);
   const [instructionsList, setInstructionsList] = useState([""]);
   const [image, setImage] = useState(null);
   const [error, setError] = useState();
 
-  const addRecipeHandler = (event) => {
+  const submitRecipeHandler = (event) => {
     event.preventDefault();
 
     if (enteredRecipeName.trim().length === 0) {
@@ -34,12 +37,13 @@ const AddRecipe = (props) => {
     ingredientsList.pop();
     instructionsList.pop();
 
-    props.onAddRecipe(
+    recipeCtx.onAddRecipe(
       enteredRecipeName,
       ingredientsList,
       instructionsList,
       image
     );
+
     setEnteredRecipeName("");
     setIngredientsList([""]);
     setInstructionsList([""]);
@@ -60,7 +64,7 @@ const AddRecipe = (props) => {
         />
       )}
       <Card classname={styles.input}>
-        <form onSubmit={addRecipeHandler} className={styles.form}>
+        <form onSubmit={submitRecipeHandler} className={styles.form}>
           <label htmlFor="recipe name">Recipe Name</label>
           <input
             id="recipe-name"
@@ -73,12 +77,12 @@ const AddRecipe = (props) => {
               }
             }}
           />
-          <Input
+          <Inputs
             title="Ingredients"
             list={ingredientsList}
             setList={setIngredientsList}
           />
-          <Input
+          <Inputs
             title="Instructions"
             list={instructionsList}
             setList={setInstructionsList}
