@@ -1,58 +1,25 @@
-import React, { useState, useContext } from "react";
 import Card from "../UI/Card";
 import ErrorModal from "../UI/ErrorModal";
 import Button from "../UI/Button";
 import styles from "../Recipes/AddRecipes.module.css";
 import AddImageFile from "./AddImageFile";
 import Inputs from "./Inputs";
-import RecipeContext from "../../store/recipe-context";
+import useRecipe from "../../hooks/use-recipe";
 
 const AddRecipe = () => {
-  const recipeCtx = useContext(RecipeContext);
-
-  const [enteredRecipeName, setEnteredRecipeName] = useState("");
-  const [ingredientsList, setIngredientsList] = useState([""]);
-  const [instructionsList, setInstructionsList] = useState([""]);
-  const [image, setImage] = useState(null);
-  const [error, setError] = useState();
-
-  const submitRecipeHandler = (event) => {
-    event.preventDefault();
-
-    if (enteredRecipeName.trim().length === 0) {
-      setError({
-        title: "Invalid input",
-        message: "Please enter a name for your recipe",
-      });
-      return;
-    } else if (ingredientsList[0] === "" || instructionsList[0] === "") {
-      setError({
-        title: "Invalid input",
-        message:
-          "A recipe must have at least one ingredient and instruction. Otherwise, what will you cook with!!!!! AAHHHAHAHAHHAH",
-      });
-      return;
-    }
-
-    ingredientsList.pop();
-    instructionsList.pop();
-
-    recipeCtx.onAddRecipe(
-      enteredRecipeName,
-      ingredientsList,
-      instructionsList,
-      image
-    );
-
-    setEnteredRecipeName("");
-    setIngredientsList([""]);
-    setInstructionsList([""]);
-    setImage(null);
-  };
-
-  const errorHandler = () => {
-    setError(null);
-  };
+  const {
+    recipeName,
+    setRecipeName,
+    ingredientsList,
+    setIngredientsList,
+    instructionsList,
+    setInstructionsList,
+    image,
+    setImage,
+    submitRecipeHandler,
+    error,
+    errorHandler
+  } = useRecipe();
 
   return (
     <>
@@ -69,8 +36,8 @@ const AddRecipe = () => {
           <input
             id="recipe-name"
             type="text"
-            value={enteredRecipeName}
-            onChange={(event) => setEnteredRecipeName(event.target.value)}
+            value={recipeName}
+            onChange={(event) => setRecipeName(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();

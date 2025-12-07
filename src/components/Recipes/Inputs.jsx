@@ -1,8 +1,17 @@
-import React, { useRef } from "react";
+import { useRef, useEffect } from "react";
 
-const Input = (props) => {
+const Inputs = (props) => {
   const { title, list, setList } = props;
   const inputRefs = useRef([]);
+
+  useEffect(() => {
+    setList((prevList) => {
+      if (prevList[0] !== "") {
+        return [...prevList, ""];
+      }
+      return prevList;
+    });
+  }, []);
 
   const handleChange = (event, index) => {
     const { value } = event.target;
@@ -66,4 +75,4 @@ const Input = (props) => {
   );
 };
 
-export default Input;
+export default Inputs;

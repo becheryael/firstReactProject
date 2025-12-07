@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import Card from "./Card";
 import Button from "./Button";
@@ -10,17 +9,17 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-      <Card classname={styles.modal}>
-        <header className={styles.header}>
-          <h2>{props.title}</h2>
-        </header>
-        <div className={styles.content}>
-          <p>{props.message}</p>
-        </div>
-        <footer className={styles.actions}>
-          <Button onClick={props.onConfirm}>Okay</Button>
-        </footer>
-      </Card>
+    <Card classname={styles.modal}>
+      <header className={styles.header}>
+        <h2>{props.title}</h2>
+      </header>
+      <div className={styles.content}>
+        <p>{props.message}</p>
+      </div>
+      <footer className={styles.actions}>
+        <Button onClick={props.onConfirm}>Okay</Button>
+      </footer>
+    </Card>
   );
 };
 

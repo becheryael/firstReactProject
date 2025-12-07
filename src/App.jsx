@@ -6,8 +6,8 @@ const App = () => {
 
   return (
     <>
-      <AddRecipe></AddRecipe>
-      <RecipesList></RecipesList>
+      <AddRecipe />
+      <RecipesList />
     </>
   );
 };

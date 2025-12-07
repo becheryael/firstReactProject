@@ -7,7 +7,11 @@ const AddImageFile = (props) => {
   const { image, setImage } = props;
 
   const handleFileChange = (file) => {
-    setImage(file);
+    const imageReader = new FileReader();
+    imageReader.readAsDataURL(file);
+    imageReader.onload = (event) => {
+      setImage(event.target.result);
+    };
   };
 
   return (
@@ -24,11 +28,7 @@ const AddImageFile = (props) => {
       )}
       {image && (
         <>
-          <img
-            src={URL.createObjectURL(image)}
-            className={styles.image}
-            alt="image not found"
-          ></img>
+          <img src={image} className={styles.image} alt="image not found" />
           <button onClick={() => setImage(null)} className={styles.button}>
             Change image
           </button>

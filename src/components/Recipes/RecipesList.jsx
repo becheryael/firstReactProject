@@ -4,13 +4,12 @@ import RecipeContext from "../../store/recipe-context";
 import Recipe from "./Recipe";
 
 const RecipesList = () => {
-  
   const recipeCtx = useContext(RecipeContext);
 
   return (
     <div className={styles.recipeCards}>
       {recipeCtx.recipesList.map((recipe, index) => (
-        <Recipe recipe={recipe} index={index} key={index}/>
+        <Recipe recipe={recipe} index={index} key={index} />
       ))}
     </div>
   );
