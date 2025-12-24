@@ -1,14 +1,21 @@
 import { useState, useContext, useEffect } from "react";
 import RecipeContext from "../store/recipe-context";
+import RecipeType from "../models/Recipe";
 
-const useRecipe = (initialRecipe = null) => {
+const useRecipe = (initialRecipe?: RecipeType, index?: number) => {
   const recipeCtx = useContext(RecipeContext);
 
   const [recipeName, setRecipeName] = useState(initialRecipe?.recipeName || "");
-  const [ingredientsList, setIngredientsList] = useState(initialRecipe?.ingredientsList || [""]);
-  const [instructionsList, setInstructionsList] = useState(initialRecipe?.instructionsList || [""]);
-  const [image, setImage] = useState(initialRecipe?.image || null);
-  const [error, setError] = useState(null);
+  const [ingredientsList, setIngredientsList] = useState(
+    initialRecipe?.ingredientsList || [""]
+  );
+  const [instructionsList, setInstructionsList] = useState(
+    initialRecipe?.instructionsList || [""]
+  );
+  const [image, setImage] = useState(initialRecipe?.image || undefined);
+  const [error, setError] = useState<{ title: string; message: string } | null>(
+    null
+  );
 
   useEffect(() => {
     if (error) {
@@ -21,7 +28,7 @@ const useRecipe = (initialRecipe = null) => {
     };
   }, [error]);
 
-  const submitRecipeHandler = (event) => {
+  const submitRecipeHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (recipeName.trim().length === 0) {
@@ -42,25 +49,21 @@ const useRecipe = (initialRecipe = null) => {
     const newIngredientsList = ingredientsList.slice(0, -1);
     const newInstructionsList = instructionsList.slice(0, -1);
 
+    const recipe: RecipeType = {
+      recipeName,
+      ingredientsList: newIngredientsList,
+      instructionsList: newInstructionsList,
+      image
+    };
+
     if (!initialRecipe) {
-      recipeCtx.onAddRecipe(
-        recipeName,
-        newIngredientsList,
-        newInstructionsList,
-        image
-      );
+      recipeCtx.onAddRecipe(recipe);
       setRecipeName("");
       setIngredientsList([""]);
       setInstructionsList([""]);
-      setImage(null);
-    } else {
-      recipeCtx.onEditRecipe(
-        initialRecipe.index,
-        recipeName,
-        newIngredientsList,
-        newInstructionsList,
-        image
-      );
+      setImage(undefined);
+    } else if (index) {
+      recipeCtx.onEditRecipe(index, recipe);
     }
     return true;
   };

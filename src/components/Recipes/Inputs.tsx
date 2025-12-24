@@ -1,8 +1,14 @@
 import { useRef, useEffect } from "react";
 
-const Inputs = (props) => {
+interface inputProps {
+  title: string;
+  list: string[];
+  setList: ((prevList: string[]) => void) & ((func: (prevList: string[]) => string[]) => void);
+}
+
+const Inputs = (props: inputProps) => {
   const { title, list, setList } = props;
-  const inputRefs = useRef([]);
+  const inputRefs = useRef<HTMLInputElement[]>([]);
 
   useEffect(() => {
     setList((prevList) => {
@@ -13,7 +19,10 @@ const Inputs = (props) => {
     });
   }, []);
 
-  const handleChange = (event, index) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const { value } = event.target;
     const updatedList = [...list];
     updatedList[index] = value;
@@ -23,7 +32,10 @@ const Inputs = (props) => {
     setList(updatedList);
   };
 
-  const handleRemove = (event, index) => {
+  const handleRemove = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const { value } = event.target;
 
     if (value.length === 0 && list.length > 1 && list.length - 1 !== index) {
@@ -33,13 +45,13 @@ const Inputs = (props) => {
     }
   };
 
-  const setInputRef = (ref, index) => {
+  const setInputRef = (ref: HTMLInputElement | null, index: number) => {
     if (ref) {
       inputRefs.current[index] = ref;
     }
   };
 
-  const handleKeyDown = (event, index) => {
+  const handleKeyDown = (event: React.KeyboardEvent, index: number) => {
     if (event.key === "Enter" || event.key === "ArrowDown") {
       event.preventDefault();
       const nextIndex = index + 1;

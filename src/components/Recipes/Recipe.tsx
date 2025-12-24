@@ -1,11 +1,18 @@
 import { useContext, useState } from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
+// @ts-ignore
 import styles from "./RecipesList.module.css";
 import RecipeContext from "../../store/recipe-context";
 import EditRecipe from "./EditRecipe";
+import RecipeType from "../../models/Recipe";
 
-const Recipe = (props) => {
+interface recipeProps {
+  recipe: RecipeType;
+  index: number;
+}
+
+const Recipe = (props: recipeProps) => {
   const { recipe, index } = props;
   const recipeCtx = useContext(RecipeContext);
 
@@ -53,9 +60,7 @@ const Recipe = (props) => {
           </Button>
         </Card>
       )}
-      {isEdit && (
-        <EditRecipe recipe={recipe} index={index} setIsEdit={setIsEdit} />
-      )}
+      {isEdit && <EditRecipe index={index} setIsEdit={setIsEdit} />}
     </>
   );
 };

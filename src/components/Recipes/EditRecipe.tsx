@@ -1,4 +1,5 @@
 import { useContext } from "react";
+// @ts-ignore
 import styles from "./RecipesList.module.css";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
@@ -8,10 +9,13 @@ import AddImageFile from "./AddImageFile";
 import useRecipe from "../../hooks/use-recipe";
 import ErrorModal from "../UI/ErrorModal";
 
-const EditRecipe = (props) => {
+const EditRecipe: React.FC<{
+  index: number;
+  setIsEdit: (isEdit: boolean) => void;
+}> = (props) => {
   const { index, setIsEdit } = props;
   const recipeCtx = useContext(RecipeContext);
-  const existingRecipe = { index, ...recipeCtx.recipesList[index] };
+  const existingRecipe = { ...recipeCtx.recipesList[index] };
 
   const {
     recipeName,
@@ -25,9 +29,9 @@ const EditRecipe = (props) => {
     submitRecipeHandler,
     error,
     errorHandler
-  } = useRecipe(existingRecipe);
+  } = useRecipe(existingRecipe, index);
 
-  const saveEditHandler = (event) => {
+  const saveEditHandler = (event: React.FormEvent<HTMLFormElement>) => {
     const success = submitRecipeHandler(event);
     if (success) {
       setIsEdit(false);
@@ -44,24 +48,24 @@ const EditRecipe = (props) => {
         />
       )}
       <Card classname={styles.recipes}>
-        <input
-          onChange={(event) => setRecipeName(event.target.value)}
-          value={recipeName}
-        />
-        <Inputs
-          title="Ingredients:"
-          list={ingredientsList}
-          setList={setIngredientsList}
-        />
-        <Inputs
-          title="Instructions:"
-          list={instructionsList}
-          setList={setInstructionsList}
-        />
-        <AddImageFile image={image} setImage={setImage} />
-        <Button type="submit" onClick={saveEditHandler}>
-          Save
-        </Button>
+        <form onSubmit={saveEditHandler}>
+          <input
+            onChange={(event) => setRecipeName(event.target.value)}
+            value={recipeName}
+          />
+          <Inputs
+            title="Ingredients:"
+            list={ingredientsList}
+            setList={setIngredientsList}
+          />
+          <Inputs
+            title="Instructions:"
+            list={instructionsList}
+            setList={setInstructionsList}
+          />
+          <AddImageFile image={image} setImage={setImage} />
+          <Button type="submit">Save</Button>
+        </form>
       </Card>
     </>
   );

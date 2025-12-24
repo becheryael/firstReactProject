@@ -1,6 +1,7 @@
 import Card from "../UI/Card";
 import ErrorModal from "../UI/ErrorModal";
 import Button from "../UI/Button";
+// @ts-ignore
 import styles from "../Recipes/AddRecipes.module.css";
 import AddImageFile from "./AddImageFile";
 import Inputs from "./Inputs";
