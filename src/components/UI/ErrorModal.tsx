@@ -3,7 +3,6 @@ import Card from "./Card";
 import Button from "./Button";
 // @ts-ignore
 import styles from "./ErrorModal.module.css";
-import { ReactNode } from "react";
 
 interface backdropProps {
   onConfirm: () => void;
